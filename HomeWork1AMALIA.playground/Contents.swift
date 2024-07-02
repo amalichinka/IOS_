@@ -1,3 +1,4 @@
+import Foundation
 class Car {
     let brand: String
     let model: String
@@ -8,16 +9,15 @@ class Car {
         self.model = model
         self.year = year
     }
-    func printInfo() -> String {
-        return "Марка машины: \(brand)\n модель: \(model)\n год выпуска: \(year)"
+    func printInfo(){
+        print("Марка машины: \(brand)\n модель: \(model)\n год выпуска: \(year)")
     }
 }
 
-class Matiz: Car {
+class CarAll: Car {
     let enginePower: Int
     let fuel: Double
     let color: String
-
 
     init(brand: String, model: String, year: Int, enginePower: Int, fuel: Double, color: String) {
         self.enginePower = enginePower
@@ -25,81 +25,69 @@ class Matiz: Car {
         self.color = color
         super.init(brand: brand, model: model, year: year)
     }
-    
-    override func printInfo() -> String {
-        return super.printInfo() + "У матизика мощность двигателя: \(enginePower) и расход топлива: \(fuel)"
-    }
 }
 
-class BMW: Car {
-    let enginePower: Int
-    let fuel: Double
-    let color: String
-
-
-    init(brand: String, model: String, year: Int, enginePower: Int, fuel: Double, color: String) {
-        self.enginePower = enginePower
-        self.fuel = fuel
-        self.color = color
-        super.init(brand: brand, model: model, year: year)
-    }
-    override func printInfo() -> String {
-        return super.printInfo() + "У BMW мощность двигателя: \(enginePower) и расход топлива: \(fuel)"
+class Matiz: CarAll {
+    override func printInfo(){
+        super.printInfo()
+        print("У матизика мощность двигателя: \(enginePower),\n расход топлива: \(fuel)\n и цвет: \(color)")
     }
 }
 
 
-class Mercedes: Car {
-    let enginePower: Int
-    let fuel: Double
-    let color: String
-
-
-    init(brand: String, model: String, year: Int, enginePower: Int, fuel: Double, color: String) {
-        self.enginePower = enginePower
-        self.fuel = fuel
-        self.color = color
-        super.init(brand: brand, model: model, year: year)
-    }
-    
-    override func printInfo() -> String {
-        return super.printInfo() + "У Mercedes мощность двигателя: \(enginePower) и расход топлива: \(fuel)"
+class BMW: CarAll {
+    override func printInfo(){
+        super.printInfo()
+        print("У BMW мощность двигателя: \(enginePower),\n расход топлива: \(fuel)\n и цвет: \(color)")
     }
 }
 
-
-class Toyota: Car {
-    let enginePower: Int
-    let fuel: Double
-    let color: String
-
-
-    init(brand: String, model: String, year: Int, enginePower: Int, fuel: Double, color: String) {
-        self.enginePower = enginePower
-        self.fuel = fuel
-        self.color = color
-        super.init(brand: brand, model: model, year: year)
-    }
-    
-    override func printInfo() -> String {
-        return super.printInfo() + "У Tayota мощность двигателя: \(enginePower) и расход топлива: \(fuel)"
+class Mercedes: CarAll {
+    override func printInfo(){
+        super.printInfo()
+        print("У Mercedes мощность двигателя: \(enginePower),\n расход топлива: \(fuel)\n и цвет: \(color)")
     }
 }
-import Foundation
-func createCars() -> [Car] {
+
+class Toyota: CarAll {
+    override func printInfo(){
+        super.printInfo()
+        print("У Tayota мощность двигателя: \(enginePower),\n расход топлива: \(fuel)\n и цвет: \(color)")
+    }
+}
+
+struct carGarage {
     var cars: [Car] = []
-
-    cars.append(BMW(brand: "BMW", model: "M5", year: 2022, enginePower: 625, fuel: 10.5, color: "red"))
-    cars.append(Mercedes(brand: "Mercedes", model: "C-class", year: 2023, enginePower: 585, fuel: 11.2, color: "gray"))
-    cars.append(Mercedes(brand: "Mercedes", model: "E-class", year: 2024, enginePower: 650, fuel: 12.0, color: "white"))
-    cars.append(Toyota(brand: "Toyota", model: "Camry", year: 2020, enginePower: 387, fuel: 9.8, color: "black"))
-    cars.append(Matiz(brand: "Matiz", model: "Daewoo", year: 2018, enginePower: 215, fuel: 7.4, color: "pink"))
-    cars.append(Matiz(brand: "Matiz", model: "Daewoo", year: 2020, enginePower: 235, fuel: 7.6, color: "pink with lashes"))
-    cars.append(BMW(brand: "BMW", model: "X5", year: 2023, enginePower: 380, fuel: 8.5, color: "yellow"))
-    cars.append(BMW(brand: "BMW", model: "I8", year: 2024, enginePower: 450, fuel: 10.0, color: "purple"))
-
-    return cars
+    mutating func addCar(brand: String, model: String, year: Int, enginePower: Int, fuel: Double, color: String, type: String) {
+        switch type {
+        case "Matiz":
+            cars.append(Matiz(brand: brand, model: model, year: year, enginePower: enginePower, fuel: fuel, color: color))
+        case "BMW":
+            cars.append(BMW(brand: brand, model: model, year: year, enginePower: enginePower, fuel: fuel, color: color))
+        case "Mercedes":
+            cars.append(Mercedes(brand: brand, model: model, year: year, enginePower: enginePower, fuel: fuel, color: color))
+        case "Toyota":
+            cars.append(Toyota(brand: brand, model: model, year: year, enginePower: enginePower, fuel: fuel, color: color))
+        default:
+            print("Неизвестный тип машины.")
+        }
+    }
 }
+
+func createCars() -> [Car] {
+    var myGarage = carGarage()
+    myGarage.addCar(brand: "BMW", model: "M5", year: 2022, enginePower: 625, fuel: 10.5, color: "red", type: "BMW")
+    myGarage.addCar(brand: "Mercedes", model: "C-class", year: 2023, enginePower: 585, fuel: 11.2, color: "gray", type: "Mercedes")
+    myGarage.addCar(brand: "Mercedes", model: "E-class", year: 2024, enginePower: 650, fuel: 12.0, color: "white", type: "Mercedes")
+    myGarage.addCar(brand: "Toyota", model: "Camry", year: 2020, enginePower: 387, fuel: 9.8, color: "black", type: "Toyota")
+    myGarage.addCar(brand: "Matiz", model: "Daewoo", year: 2018, enginePower: 215, fuel: 7.4, color: "pink", type: "Matiz")
+    myGarage.addCar(brand: "Matiz", model: "Daewoo", year: 2020, enginePower: 235, fuel: 7.6, color: "pink with lashes", type: "Matiz")
+    myGarage.addCar(brand: "BMW", model: "X5", year: 2023, enginePower: 380, fuel: 8.5, color: "yellow", type: "BMW")
+    myGarage.addCar(brand: "BMW", model: "I8", year: 2024, enginePower: 450, fuel: 10.0, color: "purple", type: "BMW")
+
+    return myGarage.cars
+}
+
 
 
 func raceCars(cars: [Car]) {
